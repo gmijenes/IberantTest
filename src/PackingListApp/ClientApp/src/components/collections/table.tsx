@@ -61,6 +61,10 @@ export interface TableProps<T> {
     exportable?: boolean;
     canCreateNew?: boolean;
     onNewItem?: () => void;
+    onEditItem?: (key: any) => void;
+    editOnModal?: boolean
+
+
     canEdit?: boolean;
     canSort?: boolean;
     onSaveRow?: (item: T, state: ItemState) => Promise<CommandResult<any>>;
@@ -486,6 +490,16 @@ class Table<T> extends React.Component<TableProps<T>, TableState<T>> {
         self.setState({ selectedRowKeys: [], showConfirmDeletion: false })
     }
 
+    @autobind
+    private async onEditItem(key: any) {
+        var self = this;
+        var obj = self.state.data.filter(o => (o.item as any)[self.state.rowKey] == key)[0];
+        if (self.props.onEditItem)
+        {
+            self.props.onEditItem(obj.item);
+        }
+    }
+
     private isEditing(record: any) {
         return this.state.editingKeys.filter(o => o == record.key).length > 0 || this.props.model.data.items.filter(o => (o.item as any)[this.props.rowKey] == record[this.props.rowKey] && o.state != 'Unchanged').length > 0;
     }
@@ -513,6 +527,8 @@ class Table<T> extends React.Component<TableProps<T>, TableState<T>> {
     @autobind
     private onSaveRow(form: any, key: any) {
         var self = this;
+
+
         form.validateFields((event: any) => {
             var values = form.getFieldsValue();
             if (!event) {
@@ -539,6 +555,8 @@ class Table<T> extends React.Component<TableProps<T>, TableState<T>> {
         });
     }
 
+  
+
     @autobind
     private onRowEdit(key: string) {
         this.setState({ editingKeys: [...this.state.editingKeys, key] });
@@ -552,6 +570,7 @@ class Table<T> extends React.Component<TableProps<T>, TableState<T>> {
         }
         this.setState({ editingKeys: this.state.editingKeys.filter(o => o != key) });
     }
+
 
     @autobind
     private onChange(pagination: any, filters: any, sorter: any) {
@@ -613,7 +632,7 @@ class Table<T> extends React.Component<TableProps<T>, TableState<T>> {
                 render: (text: any, record: any) => {
                     const editable = this.isEditing(record);
                     return (
-                        <div style={{ width: editable ? 50 : 'auto' }}>
+                        <div style={{ width: 50 }}>
                             {editable ? (
                                 <span>
                                     <EditableContext.Consumer>
@@ -635,8 +654,11 @@ class Table<T> extends React.Component<TableProps<T>, TableState<T>> {
                                     </Popconfirm>
                                 </span>
                             ) : (
-                                    <a onClick={() => this.onRowEdit(record.key)}><Icon type='edit' /></a>
-                                )}
+                                <a onClick={() => this.onRowEdit(record.key)}><Icon type='edit' /></a>
+                            )}
+
+                            {this.props.editOnModal &&
+                                <Icon type='edit' onClick={() => this.onEditItem(record.key)} />}
                         </div>
                     );
                 },

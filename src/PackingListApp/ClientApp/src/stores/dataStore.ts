@@ -358,7 +358,7 @@ export abstract class DataStore<T extends any> extends ReduxRepository<
                 data
             )
         );
-        console.log(result.data);
+        console.log("GETALL",result.data);
         return result.data;
     }
 
@@ -374,6 +374,8 @@ export abstract class DataStore<T extends any> extends ReduxRepository<
         params?: any
     ): Promise<CommandResult<T>> {
         var item = this.state.items.firstOrDefault(o => (o.item as any)[this.rowKey] == id);
+        console.log("-", params);
+
         if (item && item.state == "New") {
             var data = {
                 aggregateRootId: id,
@@ -395,6 +397,8 @@ export abstract class DataStore<T extends any> extends ReduxRepository<
             return data;
         } else {
             let httpService = this.container.get<HttpService>(HttpService);
+                params);
+
             const result = await this.dispatchAsync(
                 this.ENTITY_DELETED as string,
                 httpService.delete<any, CommandResult<T>>(

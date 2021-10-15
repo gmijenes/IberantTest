@@ -30,6 +30,7 @@ namespace PackingListApp.Controllers
 
         // GET: api/Test/5
         [HttpGet("{id}", Name = "Get")]
+        //[HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(_testService.Get(id));
@@ -46,10 +47,23 @@ namespace PackingListApp.Controllers
 
         [HttpPut("{id}")]
 
-        public  IActionResult Put(int id, [FromBody] TestModel item)
+        public IActionResult Put(int id, [FromBody] TestModel item)
         {
             _testService.Put(id, item);
             return Ok(new CommandHandledResult(true, id.ToString(), id.ToString(), id.ToString()));
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var item = _testService.Get(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            _testService.Delete(item);
+            return Ok(new CommandHandledResult(true, id.ToString()));
+
         }
     }
 }

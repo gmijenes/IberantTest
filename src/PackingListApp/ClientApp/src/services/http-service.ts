@@ -5,6 +5,7 @@ import { addTask } from 'domain-task';
 import * as ContentDisposition from 'content-disposition';
 import * as FileSaver from 'file-saver';
 import { isNullOrWhiteSpaces } from '../utils/extensions';
+import { cwd } from 'process';
 
 @injectable()
 export default class HttpService {

@@ -123,7 +123,7 @@ class NewTestItemView extends React.Component<NewTestItemViewProps & FormCompone
                 title={"New TestItem"}>
                 {this.TestItemsStore.state.result && !this.TestItemsStore.state.result.isSuccess &&
                     <Alert type='error'
-                        message="Ha ocurrido un error"
+                        message="Ha ocurrido un error "
                         description={formatMessage(this.TestItemsStore.state.result)}
                     />
                 }

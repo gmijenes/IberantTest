@@ -163,6 +163,7 @@ TestItemListState
                             onSaveRow={this.onSaveItem}
                             hidepagination={true}
                             canEdit={true}
+                            onDeleteRow={this.onDeleteRow}
                         />
                         {this.state.newShow && <NewTestItemView onClose={this.onNewItemClosed} />}
                     </div>
