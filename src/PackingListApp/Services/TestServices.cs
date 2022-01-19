@@ -23,8 +23,7 @@ namespace PackingListApp.Services
                 Title = testmodel.Title,
                 Description = testmodel.Description
             };
-            _context.TestModels.Add(newtest
-            );
+            _context.TestModels.Add(newtest);
             _context.SaveChanges();
             return newtest.Id;
         }
