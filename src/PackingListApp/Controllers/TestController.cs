@@ -35,6 +35,14 @@ namespace PackingListApp.Controllers
             return Ok(_testService.Get(id));
         }
 
+
+        // DELETE: api/Test
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            return Ok(_testService.Delete(id));
+        }
+
         // POST: api/Test
         [HttpPost]
         public IActionResult Post([FromBody] NewTestModel value)

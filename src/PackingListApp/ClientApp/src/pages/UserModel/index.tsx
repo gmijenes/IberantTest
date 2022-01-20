@@ -99,7 +99,9 @@ UserItemListState
         item: UserItem,
         state: ItemState
     ): Promise<CommandResult<any>> {
-        return await this.UserItemsStore.deleteAsync(`${item.id}`);
+        var result = await this.UserItemsStore.deleteAsync(`${item.id}`);
+        this.load(this.state.query);
+        return result;
     }
 
 
@@ -160,6 +162,7 @@ UserItemListState
                             onNewItem={this.onNewItem}
                             onRefresh={() => this.load(this.state.query)}
                             canDelete={true}
+                            onDeleteRow={this.onDeleteRow}
                             canCreateNew={true}
                             onSaveRow={this.onSaveItem}
                             hidepagination={true}

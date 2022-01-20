@@ -28,6 +28,22 @@ namespace PackingListApp.Services
             return newtest.Id;
         }
 
+        public int Delete(int id)
+        {
+            TestModel deleteTest = null;
+            try
+            {
+                deleteTest = _context.TestModels.First(t => t.Id == id);
+            }
+            catch (System.InvalidOperationException)
+            {
+                return id;
+            }
+            _context.TestModels.Remove(deleteTest);
+            _context.SaveChanges();
+            return id;
+        }
+
         public TestModel Get(int id)
         {
             return _context.TestModels.FirstOrDefault(t => t.Id == id);
@@ -47,5 +63,7 @@ namespace PackingListApp.Services
             return id;
 
         }
+
+
     }
 }

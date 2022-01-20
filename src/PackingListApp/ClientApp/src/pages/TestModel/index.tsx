@@ -99,9 +99,12 @@ TestItemListState
         item: TestItem,
         state: ItemState
     ): Promise<CommandResult<any>> {
-        return await this.TestItemsStore.deleteAsync(`${item.id}`);
+        var result = await this.TestItemsStore.deleteAsync(`${item.id}`);
+        this.load(this.state.query);
+        return result;
     }
 
+    
 
 
     render() {
@@ -129,10 +132,7 @@ TestItemListState
 
             ],
             data: this.TestItemsStore.state,
-            sortFields: [
-
-
-            ]
+            sortFields: []
         } as TableModel<TestItem>;
 
         return (
@@ -159,6 +159,7 @@ TestItemListState
                             onNewItem={this.onNewItem}
                             onRefresh={() => this.load(this.state.query)}
                             canDelete={true}
+                            onDeleteRow={this.onDeleteRow}
                             canCreateNew={true}
                             onSaveRow={this.onSaveItem}
                             hidepagination={true}

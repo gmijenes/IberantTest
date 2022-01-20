@@ -15,6 +15,23 @@ namespace PackingListApp.Services
         {
             _context = context;
         }
+
+        public object Delete(int id)
+        {
+            UserModel deleteUser = null;
+            try
+            {
+                deleteUser = _context.UserModels.First(t => t.Id == id);
+            }
+            catch (System.InvalidOperationException)
+            {
+                return id;
+            }
+            _context.UserModels.Remove(deleteUser);
+            _context.SaveChanges();
+            return id;
+        }
+
         int IUserServices.AddUser(NewUserModel Usermodel)
         {
             var newUser = new UserModel()

@@ -36,6 +36,14 @@ namespace PackingListApp.Controllers
             return Ok(_userService.GetUser(id));
         }
 
+
+        // DELETE: api/User
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            return Ok(_userService.Delete(id));
+        }
+
         // POST: api/User
         [HttpPost]
         public IActionResult Post([FromBody] NewUserModel value)
@@ -46,7 +54,6 @@ namespace PackingListApp.Controllers
         }
 
         [HttpPut("{id}")]
-
         public IActionResult Put(int id, [FromBody] UserModel item)
         {
             _userService.PutUser(id, item);
